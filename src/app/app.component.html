@@ -18,23 +18,25 @@
   <div class="row">
     <div class="col-md-12">
       <h5 class="mt-3">Reclamações em Ordem Alfabética</h5>
-      <table class="table table-striped">
-        <tbody>
-          <ng-container *ngFor="let item of dados">
-            <tr>
-              <td class="bg-secondary">
-                <section class="d-flex justify-content-between">
-                  <h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5>
-                  <i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i>
-                </section>
-              </td>
-            </tr>
-            <tr *ngFor="let detalhe of item.value; index as i">
-              <td><strong>{{ i + 1 }}</strong> - {{ detalhe.motivo }}</td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+      <section class="table-responsive">
+        <table class="table table-striped">
+          <tbody>
+            <ng-container *ngFor="let item of dados">
+              <tr>
+                <td class="bg-secondary">
+                  <section class="d-flex justify-content-between">
+                    <h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5>
+                    <i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i>
+                  </section>
+                </td>
+              </tr>
+              <tr *ngFor="let detalhe of item.value; index as i">
+                <td><strong>{{ i + 1 }}</strong> - {{ detalhe.motivo }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </section>
     </div>
   </div>
 </div>
