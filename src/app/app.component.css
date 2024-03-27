@@ -12,3 +12,14 @@ h1 > strong {
   font-weight: 900;
   padding-top: 30px;
 }
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+@media (max-width:768px){
+	.nome-empresa {
+    margin-top: 5px !important;
+  }
+}

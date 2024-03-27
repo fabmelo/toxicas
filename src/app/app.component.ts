@@ -16,8 +16,10 @@ const url = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx
 export class AppComponent implements OnInit {
   public dados!: Array<any>;
   public totais: Array<any> = [];
+  public loading!: boolean;
 
   ngOnInit(): void {
+    this.loading = true;
     this.obtemDados().then(
       (data) => {
         const table = data.table;
@@ -30,6 +32,7 @@ export class AppComponent implements OnInit {
         );
         this.dados = this.transformaDados(this.dados);
         this.obtemTotais();
+        this.loading = false;
       },
       (error) => {
         console.error(error);
@@ -38,7 +41,6 @@ export class AppComponent implements OnInit {
   }
 
   private obtemTotais(): any {
-
     const totais: Array<any> = [];
     _.each(this.dados, (item: any) => {
       totais.push({
@@ -76,7 +78,7 @@ export class AppComponent implements OnInit {
           if (index > 1) {
             return {
               [index === 2 ? 'empresa' : 'motivo']:
-                index === 2 ? (row.c[index]?.v).toUpperCase().trim() : row.c[index]?.v,
+                index === 2 ? (row.c[index]?.v).toUpperCase().trim() : (row.c[index]?.v).replace(/(<([^>]+)>)/gi, ""),
             };
           }
         }),
