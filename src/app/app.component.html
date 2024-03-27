@@ -36,27 +36,25 @@
           </div>
         </div>
       } @else {
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <tbody>
-              @for (item of dados; track $index) {
+        <table class="table table-striped">
+          <tbody>
+            @for (item of dados; track $index) {
+              <tr>
+                <td class="bg-secondary">
+                  <div class="row">
+                    <div class="col-md-6"><i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i></div>
+                    <div class="col-md-6"><h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5></div>
+                  </div>
+                </td>
+              </tr>
+              @for (detalhe of item.value; track $index) {
                 <tr>
-                  <td class="bg-secondary">
-                    <div class="row">
-                      <div class="col-md-6"><i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i></div>
-                      <div class="col-md-6"><h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5></div>
-                    </div>
-                  </td>
+                  <td><span [innerHTML]="detalhe.motivo"></span></td>
                 </tr>
-                @for (detalhe of item.value; track $index) {
-                  <tr>
-                    <td><span [innerHTML]="detalhe.motivo"></span></td>
-                  </tr>
-                }
               }
-            </tbody>
-          </table>
-        </div>
+            }
+          </tbody>
+        </table>
       }
 
     </div>
