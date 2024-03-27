@@ -1,0 +1,14 @@
+.nome-empresa {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.total {
+  font-size: 60px;
+  font-weight: 900;
+}
+
+h1 > strong {
+  font-weight: 900;
+  padding-top: 30px;
+}
