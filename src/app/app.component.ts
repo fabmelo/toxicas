@@ -1,6 +1,7 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import moment from 'moment';
 import * as _ from 'underscore';
 
 const spreadsheetID = '1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw';
@@ -75,10 +76,21 @@ export class AppComponent implements OnInit {
     const dados: Array<any> = table.rows
       .map((row: any) => [
         ...table.cols.map((col: any, index: any): any => {
-          if (index > 1) {
+          if (index === 0 || index === 1 || index === 2) {
+
+            let carimbo;
+
+            if (index === 0){
+              carimbo = row.c[index]?.v;
+              carimbo = carimbo.split('Date(')[1].split(')')[0];
+              carimbo = moment(carimbo,'YYYY,M,D,H,m,s').format('DD/MM/YYYY HH:mm:ss');
+            } else {
+              carimbo = null;
+            }
+
             return {
-              [index === 2 ? 'empresa' : 'motivo']:
-                index === 2 ? (row.c[index]?.v).toUpperCase().trim() : (row.c[index]?.v).replace(/(<([^>]+)>)/gi, ""),
+              [index === 0 ? 'carimbo' : index === 1 ? 'empresa' : 'motivo']:
+                index === 0 ? carimbo : index === 1 ? (row.c[index]?.v).toUpperCase().trim() : (row.c[index]?.v).replace(/(<([^>]+)>)/gi, ""),
             };
           }
         }),

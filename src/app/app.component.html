@@ -49,7 +49,10 @@
               </tr>
               @for (detalhe of item.value; track $index) {
                 <tr>
-                  <td><span [innerHTML]="detalhe.motivo"></span></td>
+                  <td>
+                    <p style="font-weight: bold;" [innerHTML]="detalhe.carimbo"></p>
+                    <span [innerHTML]="detalhe.motivo"></span>
+                  </td>
                 </tr>
               }
             }
