@@ -5,15 +5,16 @@
     </div>
   </div>
   <div class="row">
-    <h5 class="mt-3">Ranking das 6 Empresas mais Citadas</h5>
 
-    @if (loading) {
-      <div class="col-md-12">
-        <div class="spinner-border text-secondary text-center" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+    @if (loadingRanking) {
+      <div class="col-md-12 mt-3">
+        <section class="d-flex align-items-center align-self-center">
+          <div class="spinner-border text-secondary" role="status"></div>
+          <span class="loading">Carregando o ranking ...</span>
+        </section>
       </div>
     } @else {
+      <h5 class="mt-3">Ranking das 6 Empresas mais Citadas</h5>
       <div class="col-lg-2 col-md-4 col-sm-12" *ngFor="let item of totais">
         <div class="card text-white bg-secondary mb-3">
           <div class="card-header">{{ item.empresa }}</div>
@@ -25,41 +26,85 @@
     }
 
   </div>
+
+  @if (!loadingLista) {
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group mb-3 mt-3">
+          <input type="text" class="form-control" [(ngModel)]="parametro" (keyup)="pesquisar()" placeholder="Digite pra pesquisar" aria-label="Parâmetro" aria-describedby="basic-addon2">
+        </div>
+      </div>
+    </div>
+  }
+
   <div class="row">
     <div class="col-md-12">
-      <h5 class="mt-3">Lista com {{ dados.length }} reclamações em ordem alfabética</h5>
 
-      @if (loading) {
-        <div class="col-md-12">
-          <div class="spinner-border text-secondary text-center" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+      @if (loadingLista) {
+        <div class="col-md-12 mt-3">
+          <section class="d-flex align-items-center align-self-center">
+            <div class="spinner-border text-secondary" role="status"></div>
+            <span class="loading"> Carregando a lista ...</span>
+          </section>
         </div>
       } @else {
-        <table class="table table-striped">
-          <tbody>
-            @for (item of dados; track $index) {
-              <tr>
-                <td class="bg-secondary">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-12"><i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i></div>
-                    <div class="col-lg-9 col-md-8 col-sm-12"><h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5></div>
-                  </div>
-                </td>
-              </tr>
-              @for (detalhe of item.value; track $index) {
+
+        @if (dados && dadosFiltrados.length === 0){
+          <h5 class="mt-3">Lista com {{ dados.length }} reclamações em ordem alfabética</h5>
+          <table class="table table-striped">
+            <tbody>
+              @for (item of dados; track $index) {
                 <tr>
-                  <td>
-                    @if (detalhe.carimbo) {
-                      <p style="font-weight: bold;" [innerHTML]="detalhe.carimbo"></p>
-                    }
-                    <span [innerHTML]="detalhe.motivo"></span>
+                  <td class="bg-secondary">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 col-sm-12"><i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i></div>
+                      <div class="col-lg-9 col-md-8 col-sm-12"><h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5></div>
+                    </div>
                   </td>
                 </tr>
+                @for (detalhe of item.value; track $index) {
+                  <tr>
+                    <td>
+                      @if (detalhe.carimbo) {
+                        <p style="font-weight: bold;" [innerHTML]="detalhe.carimbo"></p>
+                      }
+                      <span [innerHTML]="detalhe.motivo"></span>
+                    </td>
+                  </tr>
+                }
               }
-            }
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        }
+
+        @if (dadosFiltrados){
+          <h5 class="mt-3">Lista com {{ dadosFiltrados.length }} reclamações em ordem alfabética</h5>
+          <table class="table table-striped">
+            <tbody>
+              @for (item of dadosFiltrados; track $index) {
+                <tr>
+                  <td class="bg-secondary">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 col-sm-12"><i class="badge rounded-pill text-bg-warning m-0 px-3 py-2">TOTAL DE RECLAMAÇÕES: {{ item.value.length }}</i></div>
+                      <div class="col-lg-9 col-md-8 col-sm-12"><h5 class="m-0 p-0 nome-empresa">{{ item.key }}</h5></div>
+                    </div>
+                  </td>
+                </tr>
+                @for (detalhe of item.value; track $index) {
+                  <tr>
+                    <td>
+                      @if (detalhe.carimbo) {
+                        <p style="font-weight: bold;" [innerHTML]="detalhe.carimbo"></p>
+                      }
+                      <span [innerHTML]="detalhe.motivo"></span>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        }
+
       }
 
     </div>

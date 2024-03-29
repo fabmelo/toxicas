@@ -1,5 +1,6 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import * as _ from 'underscore';
 
@@ -9,17 +10,25 @@ const url = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NgFor],
+  imports: [CommonModule, RouterOutlet, NgFor, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  public dados!: Array<any>;
+  public dados: Array<any> = [];
+  public dadosFiltrados: Array<any> = [];
   public totais: Array<any> = [];
-  public loading!: boolean;
+  public loadingRanking!: boolean;
+  public loadingLista!: boolean;
+  public parametro: string = '';
 
   ngOnInit(): void {
-    this.loading = true;
+    this.obtemDadosIniciais();
+  }
+
+  private obtemDadosIniciais() {
+    this.loadingLista = true;
+    this.loadingRanking = true;
     this.obtemDados().then(
       (data) => {
         const table = data.table;
@@ -32,7 +41,8 @@ export class AppComponent implements OnInit {
         );
         this.dados = this.transformaDados(this.dados);
         this.obtemTotais();
-        this.loading = false;
+        this.loadingLista = false;
+        this.loadingRanking = false;
       },
       (error) => {
         console.error(error);
@@ -114,4 +124,20 @@ export class AppComponent implements OnInit {
 
     return dados;
   }
+
+  public pesquisar() {
+    this.loadingLista = true;
+
+    if (this.parametro === ''){
+      this.dadosFiltrados = [];
+      this.totais = [];
+      this.obtemDadosIniciais();
+    } else {
+      this.dadosFiltrados = _.filter(this.dados, (dados) => {
+        this.loadingLista = false;
+        return dados.key.toLowerCase().indexOf(this.parametro.toLowerCase()) > -1;
+      });
+    }
+  }
+
 }
