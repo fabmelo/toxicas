@@ -50,7 +50,9 @@
               @for (detalhe of item.value; track $index) {
                 <tr>
                   <td>
-                    <p style="font-weight: bold;" [innerHTML]="detalhe.carimbo"></p>
+                    @if (detalhe.carimbo) {
+                      <p style="font-weight: bold;" [innerHTML]="detalhe.carimbo"></p>
+                    }
                     <span [innerHTML]="detalhe.motivo"></span>
                   </td>
                 </tr>
